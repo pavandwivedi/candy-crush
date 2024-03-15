@@ -22,7 +22,50 @@ const commonSchema = new mongoose.Schema({
             ref:'level',
 
         }
-    ]
+    ],
+    challenges:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'challenge',
+
+        }
+    ],
+   shops:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'shop',
+
+        }
+    ],
+    timerbasedfreecoins:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'freecoinReward',
+
+        }
+    ],
+    adbasedfreecoins:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'adbasedfreecoinReward',
+
+        }
+    ],
+    adbasedfreelifes:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'adbasedfreelifeReward',
+
+        }
+    ],
+    dailyrewards:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'dailyreward',
+
+        }
+    ],
+
 },
 {timestamps:true})
 

@@ -6,6 +6,8 @@ import levelRouter from "./src/routes/level.route.js";
 import versionRouter from "./src/routes/version.route.js";
 import adminRouter from "./src/routes/admin.route.js";
 import morgan from "morgan";
+import challengeRouter from "./src/routes/challenge.route.js";
+import shopRouter from "./src/routes/shop.route.js";
 const app = express();
 dotenv.config();
 connectDB();
@@ -19,6 +21,8 @@ app.use('/user',userRouter);
 app.use('/level',levelRouter);
 app.use('/admin',adminRouter);
 app.use('/version',versionRouter);
+app.use('/challenge',challengeRouter);
+app.use('/shop',shopRouter);
 
 const port = process.env.port||6000;
 app.listen(port,()=>{

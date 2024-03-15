@@ -5,6 +5,13 @@ import {facebookModel} from "../models/user.model.js";
 import { generateAccessToken } from "../services/generateAccessToken.js";
 import { error, success } from "../services/responseWrapper.js";
 import { generateUniqueReferralCode } from "../services/generateReferalCode.js";
+import dailyRewardModel from "../models/dailyreward.model.js";
+
+import timerBasedCoinsModel from "../models/timerbasedfreecoins.model.js";
+import adBasedCoinsModel from "../models/adbasedfreecoins.model.js";
+import adBasedLifesModel from "../models/adbasedfreelifes.model.js";
+
+
 
 export async function guestLoginController(req, res) {
     try {
@@ -315,3 +322,118 @@ export async function getUnlockLevels(req,res){
     }
 }
 
+export async function dailyRewardController(req,res){
+    try {
+       const user = req._id;
+        const { collectedamount} = req.body;
+        if (!collectedamount){
+            return res.send(error(404,"insufficient data"));
+        }
+        const currUser = await userModel.findById(user);
+        if (!currUser){
+            return res.send(error(404,"no such user exist"));
+        }
+        const existingDailyReward = await dailyRewardModel.findOne({user:user}  );
+        if (existingDailyReward) {
+            await dailyRewardModel.findByIdAndDelete(existingDailyReward._id);
+        }
+        
+        const dailyRewardInfo = new dailyRewardModel({user,collectedamount,collectedtime:new Date()});
+        const dailyReward = await dailyRewardInfo.save();
+        currUser.coins += collectedamount;
+        currUser.dailyrewards.push(dailyReward._id);
+     
+        await currUser.save();
+        return res.send(success(200,"daily reward collected successfully",{dailyReward}));
+
+    } catch (err) {
+        return res.send(error(500,err.message));
+    }
+}
+
+
+  export async function timerBasedFreeCoinsController(req,res){
+    try {
+        const user = req._id;
+        const {collectedamount} = req.body;
+        const currUser = await userModel.findById(user);
+        if (!currUser) {
+          return res.status(404).send(error(404, 'User not found'));
+        }
+
+        const  existingFreeCoinsData = await timerBasedCoinsModel.findOne({ user: user }); 
+
+        if (existingFreeCoinsData){
+            await  timerBasedCoinsModel.findByIdAndDelete(existingFreeCoinsData._id);
+        }
+
+
+
+       const freeCoinsData = new timerBasedCoinsModel({user,collectedamount,collectedtime:new Date()});
+        const savedFreeCoinsData = await  freeCoinsData.save();
+        currUser.coins += collectedamount;
+        currUser.timerbasedfreecoins.push(savedFreeCoinsData ._id);
+     
+        await currUser.save();
+        return res.send(success(200,"daily reward collected successfully",{savedFreeCoinsData}));
+    } catch (err) {
+        return res.send(error(500, err.message));
+    }
+  }
+  export async function adBasedFreeCoinsController(req,res){
+    try {
+        const user = req._id;
+        const {collectedamount} = req.body;
+        const currUser = await userModel.findById(user);
+        if (!currUser) {
+          return res.status(404).send(error(404, 'User not found'));
+        }
+
+        const  existingFreeCoinsData = await adBasedCoinsModel.findOne({ user: user }); 
+
+        if (existingFreeCoinsData){
+            await  adBasedCoinsModel.findByIdAndDelete(existingFreeCoinsData._id);
+        }
+
+
+
+       const freeCoinsData = new adBasedCoinsModel({user,collectedamount,collectedtime:new Date()});
+        const savedFreeCoinsData = await  freeCoinsData.save();
+        currUser.coins += collectedamount;
+        currUser.adbasedfreecoins.push(savedFreeCoinsData._id);
+     
+        await currUser.save();
+        return res.send(success(200,"daily reward collected successfully",{savedFreeCoinsData}));
+    } catch (err) {
+        return res.send(error(500, err.message));
+    }
+  }
+
+  export async function adBasedFreeLifesController(req,res){
+    try {
+        const user = req._id;
+        const {collectedlifes} = req.body;
+        const currUser = await userModel.findById(user);
+        if (!currUser) {
+          return res.status(404).send(error(404, 'User not found'));
+        }
+
+        const  existingFreeLifeData = await adBasedLifesModel.findOne({ user: user }); 
+
+        if (existingFreeLifeData){
+            await  adBasedLifesModel.findByIdAndDelete(existingFreeLifeData._id);
+        }
+
+
+
+       const freeLifeData = new adBasedLifesModel({user,collectedlifes,collectedtime:new Date()});
+        const savedFreeLifeData = await  freeLifeData.save();
+        currUser.life += collectedlifes;
+        currUser.adbasedfreelifes.push(savedFreeLifeData._id);
+     
+        await currUser.save();
+        return res.send(success(200,"daily reward collected successfully",{savedFreeLifeData}));
+    } catch (err) {
+        return res.send(error(500, err.message));
+    }
+  }
