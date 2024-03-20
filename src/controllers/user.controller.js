@@ -10,6 +10,8 @@ import dailyRewardModel from "../models/dailyreward.model.js";
 import timerBasedCoinsModel from "../models/timerbasedfreecoins.model.js";
 import adBasedCoinsModel from "../models/adbasedfreecoins.model.js";
 import adBasedLifesModel from "../models/adbasedfreelifes.model.js";
+import kycModel from "../models/user.kyc.model.js";
+import WithdrawRequestModel from "../models/user.withdrawrequest.model.js";
 
 
 
@@ -222,7 +224,56 @@ export async function userUpdateController(req, res) {
         return res.send(error(500, err.message));
     }
 }
+export async function updateCoinsController(req, res) {
+    try {
+        const userId = req._id;
+        const { coins } = req.body;
 
+        const user = await userModel.findById(userId);
+
+        // Store the original referral code
+        const originalReferralCode = user.referralCode;
+
+        // Update user's fields
+        user.coins += coins || 0;
+     
+
+        // Save the user
+        await user.save();
+
+        // Restore the original referral code
+        user.referralCode = originalReferralCode;
+
+        return res.send(success(200, user));
+    } catch (err) {
+        return res.send(error(500, err.message));
+    }
+}
+export async function updateLifesController(req, res) {
+    try {
+        const userId = req._id;
+        const { life } = req.body;
+
+        const user = await userModel.findById(userId);
+
+        // Store the original referral code
+        const originalReferralCode = user.referralCode;
+
+        // Update user's fields
+        user.life += life || 0;
+     
+
+        // Save the user
+        await user.save();
+
+        // Restore the original referral code
+        user.referralCode = originalReferralCode;
+
+        return res.send(success(200, user));
+    } catch (err) {
+        return res.send(error(500, err.message));
+    }
+}
 export async function referAndEarnController(req, res) {
     const currUser = req._id;
     const { referralCode } = req.body;
@@ -435,5 +486,75 @@ export async function dailyRewardController(req,res){
         return res.send(success(200,"daily reward collected successfully",{savedFreeLifeData}));
     } catch (err) {
         return res.send(error(500, err.message));
+    }
+  }
+
+  // do kyc of a player 
+  export async function kycController(req, res) {
+    try {
+         const user = req._id;
+         
+      const { firstName, lastName, adharNumber, panNumber, reason } = req.body;
+      
+      if (!firstName || !lastName || !adharNumber || !panNumber) {
+        return res.status(400).send({ error: 'All fields are required for KYC verification' });
+      }
+      
+      const uploadedImage1 = req.files[0];
+     
+      const uploadedImage2 = req.files[1];
+     
+      const uploadedImage3 = req.files[2];
+      
+      
+        const adharFrontPath = uploadedImage1.path;
+     
+        const adharBackPath = uploadedImage2.path;
+        const panFrontPath = uploadedImage3.path;
+  
+        // Save KYC details and file paths to the user document in the 
+        const kycdetails = new kycModel({firstName,
+            lastName,
+            adharNumber,
+            panNumber,
+            adharFront:adharFrontPath,
+            adharBack:adharBackPath,
+            panFront:panFrontPath,
+            reason,
+            user
+        });
+        await kycdetails.save();
+  
+        
+  
+       return res.send(success(200, "player request for kyc successfully"));
+    
+    } catch (err) {
+      return res.send(error(500,err.message));
+    }
+  }
+
+  export async function withdrawRequestController(req,res){
+    try {
+        const { amt_withdraw,payment_type,upi_id,mobile_number,reason} = req.body;
+
+        if (!amt_withdraw || !payment_type || !upi_id || !mobile_number || !reason ) {
+            return res.send(error(403,"all fields are required"));
+        }
+         const user = req._id;
+         const userInfo = await userModel.findById(user);
+         if(!userInfo){
+            return res.send(error(404,"no such user exist"));
+         }
+
+         if(userInfo.INR < amt_withdraw){
+            return res.send(error(404,`you have only ${amt_withdraw} in your wallet , please play the challenge to increase INR`  ));
+         }
+         const newWithdrawRequest = new WithdrawRequestModel({amt_withdraw,payment_type,upi_id,mobile_number,reason,user});
+          await newWithdrawRequest.save();
+     return res.send(success(200,` request for ${amt_withdraw } rupees have  been sent successfully,please wait for 3-4 hours for payment processing `));
+
+    } catch (err) {
+        return res.send(error(500,err.message));
     }
   }

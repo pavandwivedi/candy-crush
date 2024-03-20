@@ -16,6 +16,7 @@ const commonSchema = new mongoose.Schema({
     extraball:{type:Number,default:0},
     fireball:{type:Number,default:0},
     colorball:{type:Number,default:0},
+    kycstatus:{type:Boolean,default:false},
     Levels:[
         {
             type: mongoose.Schema.Types.ObjectId,

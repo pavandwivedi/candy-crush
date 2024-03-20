@@ -2,13 +2,16 @@ import adminModel from "../models/admin.model.js";
 import {userModel} from "../models/user.model.js";
 import createChallengeModel from "../models/admin.challenge.model.js";
 import bcrypt from 'bcrypt'
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
+import Razorpay from "razorpay";
 import { generateAccessToken } from "../services/generateAccessToken.js";
 import {error,success} from "../services/responseWrapper.js"
 import timerBasedFreeCoinsModel from "../models/admin.timerbasedfreecoins.model.js";
 import adBasedFreeCoinsModel from "../models/admin.adbasedfreecoins.model.js";
 import adBasedFreeLifesModel from "../models/admin.adbasedfreelifes.model.js";
 import shopModel from "../models/admin.shop.model.js";
+import kycModel from "../models/user.kyc.model.js";
+import WithdrawRequestModel from "../models/user.withdrawrequest.model.js";
 dotenv.config();
 
 
@@ -275,5 +278,138 @@ export async  function  getShopListController(req,res){
         return res.send(success(200,shopList));
     } catch (err) {
         return res.send(error(500,err.message)); 
+    }
+}
+
+export async function getKycListController(req,res){
+    try {
+        const admin = req._id;
+         const adminDetail = await adminModel.findById({_id:admin});
+         if(!adminDetail){
+            return res.send(error(404,"unauthorized access"));
+         }
+        const kycList = await kycModel.find({});
+        return res.send(success(200, kycList,"kyc list fetch successfully"));
+    } catch (err) {
+        return res.send(error(500,err.message));
+    }
+}
+
+export async function updateKycStatusController(req,res){
+    try {
+         const admin = req._id;
+         const adminDetail = await adminModel.findById({_id:admin});
+         if(!adminDetail){
+            return res.send(error(404,"unauthorized access"));
+         }
+         const {status} = req.body;
+         const user = req.params;
+         const userDetails = await userModel.findByIdAndUpdate(user,{$set:{kycstatus:status}});
+         
+         const kycdetails = await kycModel.findOne({user:user});
+         kycdetails.status = status;
+         await kycdetails.save();
+        
+      
+        return res.send(success(200,"user kyc details verified successfully"));
+
+    } catch (err) {
+        return res.send(error(500,err.message));
+    }
+}
+
+export async function getAllWithdrawRequestController(req,res){
+    try {
+         const admin = req._id;
+         const adminDetail = await adminModel.findById({_id:admin});
+         if(!adminDetail){
+            return res.send(error(404,"unauthorized access"));
+         }
+         const withdrawList = await WithdrawRequestModel.find({});
+        return res.send(success(200,withdrawList));
+    } catch (err) {
+       return res.send(error(500,err.message));
+    }
+}
+
+export async function updateWIthdrawRequestController(req,res){
+    try {
+        const admin = req._id;
+        const {user} = req.params;
+       
+   
+        const adminDetail = await adminModel.findById({_id:admin});
+         if(!adminDetail){
+            return res.send(error(404,"unauthorized access"));
+         }
+
+         const withdrawDetail = await WithdrawRequestModel.findOne({user:user});
+         console.log(withdrawDetail);
+         if(!withdrawDetail){
+            return res.send(error(404,"no such request exist"));
+           }
+           withdrawDetail.status = true;
+           await withdrawDetail.save();
+           return res.send(success(200,"withdraw request has been verified successfully"));
+
+    } catch (err) {
+        return res.send(error(500,err.message));
+    }
+}
+
+export async function disbursedCashController(req,res){
+    try {
+        const admin = req._id;
+        const {user} = req.body;
+       
+   
+        const adminDetail = await adminModel.findById({_id:admin});
+         if(!adminDetail){
+            return res.send(error(404,"unauthorized access"));
+         }
+
+         const userDetails = await userModel.findByIdAndUpdate({_id:user});
+         if(!userDetails){
+            return res.send(error(404,"no such user exist"));
+         }
+         const withdrawDetail = await WithdrawRequestModel.findOne({user:user});
+         console.log(withdrawDetail);
+         if(!withdrawDetail){
+            return res.send(error(404,"no such request exist"));
+           }
+
+           const keyId = 'rzp_test_BehAvGqJTJnEZU';
+           const keySecret = 'hfyIyOhCHRD71SOrL9pNToKC';
+           
+           const razorpay = new Razorpay({
+             key_id: keyId,
+             key_secret: keySecret,
+           });
+           
+           const payoutResponse = await razorpay.payouts.create({
+            account_number: "2323230055816469",
+            fund_account_id: "fa_NoYldaK8MZIDHn",
+            amount: 100,
+            currency: "INR",
+            mode: "UPI",
+            purpose: "refund",
+            queue_if_low_balance: true,
+            reference_id: "Acme Transaction ID 12345",
+            narration: "Acme Corp Fund Transfer",
+            notes:{
+            random_key_1: "Make it so.",
+              random_key_2: "Tea. Earl Grey. Hot."
+            }
+           });
+           console.log(payoutResponse);
+          
+          userDetails.INR -= withdrawDetail.amt_withdraw;
+          await userDetails.save();
+          
+        return res.send(success(200,`${withdrawDetail.amt_withdraw} rupees has been credited to ${withdrawDetail.upi_id}`,payoutResponse))
+
+
+    } catch (err) {
+        return res.send(error(500,err.message));
     }
 }

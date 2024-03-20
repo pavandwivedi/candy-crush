@@ -1,6 +1,6 @@
 import express from "express";
-import { createAdBasedFreeCoinsController, createAdBasedFreeLifesController, createChallengeController, createShopController, createTimerBasedFreeCoinsController, deleteChallengeController, deleteShopController, getAllUsers,  loginController, signupController, updateChallengeController, updateShopController } from "../controllers/admin.controller.js";
-import { checkAdminLogin } from "../middlewares/middlewares.js";
+import { createAdBasedFreeCoinsController, createAdBasedFreeLifesController, createChallengeController, createShopController, createTimerBasedFreeCoinsController, deleteChallengeController, deleteShopController, disbursedCashController, getAllUsers,  getAllWithdrawRequestController,  getKycListController,  loginController, signupController, updateChallengeController, updateKycStatusController, updateShopController, updateWIthdrawRequestController } from "../controllers/admin.controller.js";
+import { checkAdminLogin, checkUserLogin } from "../middlewares/middlewares.js";
 
 const adminRouter = express.Router();
 
@@ -17,5 +17,9 @@ adminRouter.post('/createadbasedfreelifesRewards',checkAdminLogin,createAdBasedF
 adminRouter.post('/createshop',checkAdminLogin,createShopController);
 adminRouter.put('/updateshop/:id',checkAdminLogin,updateShopController);
 adminRouter.delete('/deleteshop/:id',checkAdminLogin,deleteShopController);
-
+adminRouter.get('/getkyclist',checkAdminLogin,getKycListController);
+adminRouter.put('/updatekycstatus/:_id',checkAdminLogin,updateKycStatusController);
+adminRouter.get('/getallwithdrawrequest',checkAdminLogin,getAllWithdrawRequestController);
+adminRouter.put('/updatewithdrawrequest/:user',checkAdminLogin,updateWIthdrawRequestController);
+adminRouter.post('/disbursedcash',checkAdminLogin,disbursedCashController);
 export default adminRouter;
