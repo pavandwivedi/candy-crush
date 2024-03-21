@@ -190,7 +190,7 @@ export async function getUserController(req,res){
         if(!user)
         return res.send("user not found!");
 
-        return res.send(user);
+        return res.send(success(200,user));
     } catch (err) {
         return res.send(error(500,err.message))
     }
