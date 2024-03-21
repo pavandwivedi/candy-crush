@@ -16,7 +16,7 @@ userRouter.post('/updatelifes',checkUserLogin,updateLifesController);
 userRouter.post('/refer',checkUserLogin,referAndEarnController);
 userRouter.put('/shop',checkUserLogin,userShopController);
 userRouter.get("/unlockLevelCount",checkUserLogin,getUnlockLevels);
-userRouter.put('/updateUser',checkUserLogin,updateUserController);
+userRouter.get('/updateUser',checkUserLogin,updateUserController);
 userRouter.get('/getchallenge',getChallengeController);
 userRouter.get('/getshoplist',getShopListController);
 userRouter.post('/collectdailyreward',checkUserLogin,dailyRewardController);
