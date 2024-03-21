@@ -9,6 +9,10 @@ const commonSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
+    isReferUsed:{
+        type:Boolean,
+        default:false
+    },
     referedCount:{type:Number,default:0},
     INR:{type:Number,default:0},
     life:{type:Number,default:5},
