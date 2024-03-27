@@ -189,8 +189,8 @@ export async function getUserController(req,res){
         
         const currUserId = req._id;
         
-        const user = await userModel.findOne({_id:currUserId}).populate('levels');
-        
+        const user = await userModel.findOne({_id:currUserId}).populate('Levels');
+        console.log(user);
         if(!user)
         return res.send("user not found!");
 
