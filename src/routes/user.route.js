@@ -1,5 +1,6 @@
 import express from 'express';
-import { adBasedFreeCoinsController, adBasedFreeLifesController, authenticLoginController, dailyRewardController, facebookLoginController,  getUnlockLevels, getUserController, guestLoginController, kycController, referAndEarnController, timerBasedFreeCoinsController, updateCoinsController, updateLifesController, updateUserController, userShopController, userUpdateController, withdrawRequestController } from "../controllers/user.controller.js" ;
+import axios from "axios";
+import { adBasedFreeCoinsController, adBasedFreeLifesController, authenticLoginController, createContactAccountController, createFundAccountController, createPayoutController, createTransactionHistoryController, dailyRewardController, facebookLoginController,  getUnlockLevels, getUserController, guestLoginController, kycController, referAndEarnController, timerBasedFreeCoinsController, updateCoinsController, updateLifesController, updateUserController, userShopController, userUpdateController, withdrawRequestController } from "../controllers/user.controller.js" ;
 import { checkUserLogin } from '../middlewares/middlewares.js';
 import { getChallengeController, getShopListController } from '../controllers/admin.controller.js';
 import upload from '../middlewares/upload.js';
@@ -24,7 +25,10 @@ userRouter.post('/timerbasedfreecoins',checkUserLogin,timerBasedFreeCoinsControl
 userRouter.post('/adbasedfreecoins',checkUserLogin,adBasedFreeCoinsController );
 userRouter.post('/adbasedfreelifes',checkUserLogin,adBasedFreeLifesController );
 userRouter.post('/kyc',checkUserLogin,upload.array('files'),kycController);
-userRouter.post('/withdrawrequest',checkUserLogin,withdrawRequestController);
-
+ userRouter.post('/withdrawrequest',checkUserLogin,withdrawRequestController);
+userRouter.post('/createcontactaccount',checkUserLogin,createContactAccountController);
+userRouter.post('/createfundaccount',checkUserLogin,createFundAccountController);
+userRouter.post('/createpayout',checkUserLogin,createPayoutController);
+userRouter.post('/createtransactionhistory',checkUserLogin,createTransactionHistoryController);
 
 export default userRouter;

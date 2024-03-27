@@ -43,17 +43,11 @@ const WithdrawRequestSchema = new mongoose.Schema({
     default: null,
   },
   status: {
-    type: Boolean,  
-    default: false,
+    type: String,
+    enum: ['pending', 'completed', 'cancelled'],
+    default: 'pending',
   },
-  created_at: {
-    type: Date,
-    default: Date.now,
-  },
-  updated_at: {
-    type: Date,
-    default: Date.now,
-  },
+ 
 });
 
 // Create the model based on the schema

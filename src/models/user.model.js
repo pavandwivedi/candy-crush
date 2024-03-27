@@ -96,7 +96,7 @@ const facebookSchema = new mongoose.Schema({
     facebookID:{
         type:String,
         unique:true,
-        // required:true
+       
        
     }
 })

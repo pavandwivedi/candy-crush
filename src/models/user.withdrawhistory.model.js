@@ -1,29 +1,29 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
-// Define the schema for withdraw history
-const WithdrawalSchema = new mongoose.Schema({
-    amount: {
-      type: Number,
-      required: true,
-    },
-    withdrawalDate: {
-      type: Date,
-      default: Date.now,
-    },
-    paymentMethod: {
-      type: String,
-      maxlength: 100,
-    },
-    transactionNumber: {
-      type: String,
-      maxlength: 100,
-    },
-    status: {
-      type: String,
-      enum: ['pending', 'completed', 'cancelled'],
-      default: 'pending',
-    },
-  });
+// // Define the schema for withdraw history
+// const WithdrawalSchema = new mongoose.Schema({
+//     amount: {
+//       type: Number,
+//       required: true,
+//     },
+//     withdrawalDate: {
+//       type: Date,
+//       default: Date.now,
+//     },
+//     paymentMethod: {
+//       type: String,
+//       maxlength: 100,
+//     },
+//     transaction_id: {
+//       type: String,
+//       maxlength: 100,
+//     },
+//     status: {
+//       type: String,
+//       enum: ['pending', 'completed', 'cancelled'],
+//       default: 'pending',
+//     },
+//   });
   
 const WithdrawHistorySchema = new mongoose.Schema({
   user: {
@@ -31,10 +31,31 @@ const WithdrawHistorySchema = new mongoose.Schema({
     ref: 'User',
   
   },
-  withdrawHistory: [WithdrawalSchema],
+  withdrawHistory: [{  
+    amount: {
+    type: Number,
+    required: true,
+  },
+  withdrawalDate: {
+    type: Date,
+    default: Date.now,
+  },
+  paymentMethod: {
+    type: String,
+    maxlength: 100,
+  },
+  transaction_id: {
+    type: String,
+    maxlength: 100,
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'completed', 'cancelled'],
+    default: 'pending',
+  },}],
 });
 
-// Create the model based on the schema
+
 const withdrawHistoryModel = mongoose.model('WithdrawHistory', WithdrawHistorySchema);
 
  export default  withdrawHistoryModel;
