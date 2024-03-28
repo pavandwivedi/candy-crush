@@ -563,6 +563,7 @@ export async function dailyRewardController(req,res){
         return res.send(error(500,err.message));
     }
   }
+  
 
  export  async function createContactAccountController(req, res) {
     const apiKey = 'rzp_test_HReBag7y9g12Bp';

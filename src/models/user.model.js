@@ -13,6 +13,11 @@ const commonSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
+    Level:{
+        type:Number,
+        default:1
+    },
+  
     referedCount:{type:Number,default:0},
     INR:{type:Number,default:0},
     life:{type:Number,default:5},
