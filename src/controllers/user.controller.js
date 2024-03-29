@@ -15,7 +15,7 @@ import kycModel from "../models/user.kyc.model.js";
 import WithdrawRequestModel from "../models/user.withdrawrequest.model.js";
 import fundModel from "../models/user.fund_account_id.model.js";
 import payoutModel from "../models/user.payout.model.js";
-import withdrawHistoryModel from "../models/user.withdrawhistory.model.js";
+import withdrawHistoryModel from "../models/user.transactionhistory.model.js";
 
 
 
@@ -505,15 +505,17 @@ export async function dailyRewardController(req,res){
         return res.status(400).send({ error: 'All fields are required for KYC verification' });
       }
       
-      const uploadedImage1 = req.files[0];
+      const uploadedImage1 = await req.files[0];
      
-      const uploadedImage2 = req.files[1];
+      const uploadedImage2 = await req.files[1];
      
-      const uploadedImage3 = req.files[2];
+      const uploadedImage3 = await req.files[2];
       
-      
+      if (!uploadedImage1 || !uploadedImage2 || !uploadedImage3) {
+        return res.status(400).send({ error: 'Uploaded images are missing or invalid' });
+      }
         const adharFrontPath = uploadedImage1.path;
-     
+        console.log(adharFrontPath);
         const adharBackPath = uploadedImage2.path;
         const panFrontPath = uploadedImage3.path;
   

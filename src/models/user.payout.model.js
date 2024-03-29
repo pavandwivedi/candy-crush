@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const payoutSchema = new mongoose.Schema({
-    payout_id:{
+       payout_id:{
         type:String,
         required:true
            },
