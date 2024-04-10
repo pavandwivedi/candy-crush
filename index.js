@@ -8,11 +8,12 @@ import adminRouter from "./src/routes/admin.route.js";
 import morgan from "morgan";
 import challengeRouter from "./src/routes/challenge.route.js";
 import shopRouter from "./src/routes/shop.route.js";
+import cors from "cors";
 const app = express();
 dotenv.config();
 connectDB();
 app.use(morgan("common"));
-
+app.use(cors());
 app.use(express.json());
 
 // routes
