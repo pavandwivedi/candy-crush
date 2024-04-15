@@ -76,6 +76,7 @@ export async function getAllUsers(req,res){
 
 export async function createChallengeController(req, res) {
     const { name, description, isActive, rewards,duration } = req.body;
+    console.log("pavan")
     
     try {
         // Validate required fields
@@ -94,8 +95,8 @@ export async function createChallengeController(req, res) {
 
         // Save the new challenge to the database
         const savedChallenge = await newChallenge.save();
-
-        return res.send(success(200,"challenge created successfully"));
+          console.log(savedChallenge)
+        return res.send(success(200,"challenge created successfully",savedChallenge));
     } catch (err) {
         
         return res.send(error(500,err.message));
@@ -105,7 +106,9 @@ export async function createChallengeController(req, res) {
 export async function getChallengeController(req,res){
     try {
         
-        const challengeDetails = await createChallengeModel.findOne({});
+        const challengeDetails = await createChallengeModel.find({});
+        
+
         if(! challengeDetails){
             return res.send(error(404,"no challenge exit"))
         }
