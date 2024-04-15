@@ -72,6 +72,7 @@ export async function updateChallengeController(req,res){
 }
 export async function getAllChallengesController(req,res){
     try {
+        console.log("pavan");
         const user = req._id;
         const currUser = await userModel.findById(user);
         if (!currUser) {
