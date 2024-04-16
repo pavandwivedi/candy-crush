@@ -737,3 +737,43 @@ const endpoint = 'contacts'
           return res.send(error(500,err.message));
       }
   }
+
+  export async function updatPowerController(req, res) {
+    try {
+        const userId = req._id;
+        const { ExtraMoves,
+            Packages,
+            Stripes,
+            ExtraTime,
+            Bomb,
+            Colorful_bomb,
+            Hand,
+            Random_color,} = req.body;
+
+        const user = await userModel.findById(userId);
+
+        // Store the original referral code
+        const originalReferralCode = user.referralCode;
+
+        
+        // Update user's fields
+        user.ExtraMoves += ExtraMoves || 0;
+        user.Packages += Packages|| 0;      
+        user.Stripes += Stripes || 0;
+        user.ExtraTime += ExtraTime|| 0;
+        user. Bomb += Bomb|| 0;
+        user. Colorful_bomb +=  Colorful_bomb|| 0;
+        user.Hand += Hand|| 0;
+        user. Random_color +=  Random_color|| 0;
+
+        // Save the user
+        await user.save();
+
+        // Restore the original referral code
+        user.referralCode = originalReferralCode;
+
+        return res.send(success(200, user));
+    } catch (err) {
+        return res.send(error(500, err.message));
+    }
+}

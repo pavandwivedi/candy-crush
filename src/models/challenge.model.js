@@ -12,13 +12,19 @@ const challengeSchema = mongoose.Schema({
       },
       endTime: {
         type: Date,
-        required: true
+       
       },
-    
-      status:{
-        type:String,
-        
-      },
+     remainingTime:{
+      type:Date,
+     },
+     remainingLevel:{
+      type:Number
+     },
+     status: {
+      type: String,
+      enum: ['complete', 'incomplete'],
+      default: 'incomplete'
+  },
       user : {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'

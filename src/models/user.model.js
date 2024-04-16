@@ -26,6 +26,16 @@ const commonSchema = new mongoose.Schema({
     fireball:{type:Number,default:0},
     colorball:{type:Number,default:0},
     kycstatus:{type:Boolean,default:false},
+    ExtraMoves:{type:Number,default:0},
+    Hand:{type:Number,default:0,min:0},
+    Bomb:{type:Number,default:0,min:0},
+    Colorful_bomb:{type:Number,default:0,min:0},
+    Random_color:{type:Number,default:0,min:0},
+    Stripes:{type:Number,default:0,min:0},
+    ExtraTime:{type:Number,default:0,min:0},
+    Packages:{type:Number,default:0,min:0},
+    
+
     Levels:[
         {
             type: mongoose.Schema.Types.ObjectId,
