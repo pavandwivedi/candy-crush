@@ -63,16 +63,18 @@ export async function updateChallengeTimeController(req,res){
         const timePlayed = endTime-startTime
         const challengeDuration = challengeDetails.duration
         const remainingTime = challengeDuration-timePlayed
-        
+        if(remainingTime <0){
+          remainingTime =0 
+        }
         // if (status === "win") {
         //     // Assuming rewards is defined somewhere in your code
         //     currUser.INR += challengeDetails.rewards;
         //     await currUser.save();
         //   }
 
-          challengeInfo.remainingTime = remainingTime > 0 ? remainingTime :0 ;
+          challengeInfo.remainingTime = remainingTime 
           challengeInfo.remainingLevel = remainingLevel;
-          challengeInfo.endTime = endTime;
+          // challengeInfo.endTime = endTime;
           await challengeInfo.save();
           return res.send(success(200,"challenge is incomplete,! please complete it"))
     } catch (err) {

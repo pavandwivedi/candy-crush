@@ -15,7 +15,8 @@ const challengeSchema = mongoose.Schema({
        
       },
      remainingTime:{
-      type:Date,
+      type:Number,
+      default:0
      },
      remainingLevel:{
       type:Number
