@@ -15,7 +15,7 @@ const challengeSchema = mongoose.Schema({
        
       },
      remainingTime:{
-      type:Number,
+      type:Date,
       default:0
      },
      remainingLevel:{
@@ -24,7 +24,8 @@ const challengeSchema = mongoose.Schema({
      status: {
       type: String,
       enum: ['complete', 'incomplete'],
-      default: 'incomplete'
+      default:"incomplete"
+      
   },
       user : {
         type: mongoose.Schema.Types.ObjectId,
