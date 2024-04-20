@@ -31,7 +31,6 @@ const challengeSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     }
-    
 })
 const challengeModel = mongoose.model('challenge',challengeSchema);
 export default challengeModel;
