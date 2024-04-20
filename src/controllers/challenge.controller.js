@@ -47,7 +47,8 @@ import {error,success} from "../services/responseWrapper.js"
           name: createdChallenge.name,
           startTime: createdChallenge.startTime,
           status: createdChallenge.status,
-          user: createdChallenge.user
+          user: createdChallenge.user,
+          duration:createdChallenge.duration
       };
 
     
@@ -70,10 +71,10 @@ export async function updateChallengeTimeController(req,res){
         console.log(challengeDetails)
         const challengeInfo = await challengeModel.findOne({name});
        
-        const currentTime = new Date();
-        // const endTime = new Date();
+        // const currentTime = new Date();
+        // // const endTime = new Date();
         const startTime = new Date (challengeInfo.startTime)
-        const endTime = currentTime-startTime
+        const endTime = new Date(startTime.getTime() + challengeDetails.duration);
         const challengeDuration = challengeDetails.duration
         const remainingTime = challengeDuration-endTime
         
@@ -103,10 +104,7 @@ export async function updateChallengeController(req,res){
 
       const challengeDetails = await createChallengeModel.findOne({ name });
       console.log(challengeDetails)
-      const challengeInfo = await challengeModel.findOneAndDelete({name,user});
-      if(!challengeInfo){
-        return res.send(error(404,"No challenge have been played by you"));
-      }
+      const challengeInfo = await challengeModel.findOne({name})
       
 
       if (status === "complete") {
@@ -116,6 +114,10 @@ export async function updateChallengeController(req,res){
           await currUser.save();
         }
 
+        const challengeDelete = await challengeModel.findOneAndDelete({name,user});
+      if(!challengeInfo){
+        return res.send(error(404,"No challenge have been played by you"));
+      }
        
         challengeInfo.endTime = endTime;
         challengeInfo.status = status;
@@ -154,7 +156,9 @@ export async function getAllChallengesController(req,res){
             name: challenge.name,
             startTime: challenge.startTime,
             remainingTime: challenge.remainingTime,
-            status: challenge.status
+            status: challenge.status,
+            duration: challenge.duration,
+            
         };
     });
  console.log(challengesResponse)

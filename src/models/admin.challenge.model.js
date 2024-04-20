@@ -21,6 +21,10 @@ const createChallengeSchema = new mongoose.Schema({
   duration: {
     type: Number, // Assuming duration is in seconds, adjust as needed
     required: true
+  },
+  taskamount:{
+    type:Number,
+    required:true
   }
 }, { timestamps: true });
 
