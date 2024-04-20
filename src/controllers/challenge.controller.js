@@ -13,6 +13,11 @@ import {error,success} from "../services/responseWrapper.js"
         if (!currUser) {
           return res.send(error(404, 'User not found'));
         }
+
+          const activeChallenge = await challengeModel.findOne({user,status:"incomplete"})
+          if(activeChallenge){
+            return res.send(error(400,'You already have a active challenge.Complete it before starting New One' ))
+          }
           const existingChallenge = await challengeModel.findOne({name,status:"incomplete"});
           if(existingChallenge){
             return res.send(error(400,'You already have a active challenge.Complete it before starting New One' ))
@@ -68,9 +73,9 @@ export async function updateChallengeTimeController(req,res){
         const currentTime = new Date();
         // const endTime = new Date();
         const startTime = new Date (challengeInfo.startTime)
-        const elapsedTime = currentTime-startTime
+        const endTime = currentTime-startTime
         const challengeDuration = challengeDetails.duration
-        const remainingTime = challengeDuration-elapsedTime
+        const remainingTime = challengeDuration-endTime
         
         if(remainingTime <0){
           remainingTime = 0
@@ -111,9 +116,10 @@ export async function updateChallengeController(req,res){
           await currUser.save();
         }
 
-        await challengeInfo.delete();
+       
         challengeInfo.endTime = endTime;
         challengeInfo.status = status;
+        await challengeInfo.delete();
         await challengeInfo.save();
         return res.send(success(200,"challenge completed successfully"))
   } catch (err) {

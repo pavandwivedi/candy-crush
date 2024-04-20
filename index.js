@@ -25,7 +25,7 @@ app.use('/version',versionRouter);
 app.use('/challenge',challengeRouter);
 app.use('/shop',shopRouter);
 
-const port = process.env.port||6500;
+const port = process.env.port||6000;
 app.listen(port,()=>{
     console.log(`server running on port${port}`);
 })
