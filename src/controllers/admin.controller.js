@@ -77,7 +77,7 @@ export async function getAllUsers(req,res){
 export async function createChallengeController(req, res) {
     const { name, description, isActive, rewards,duration,taskamount } = req.body;
     console.log("pavan")
-    
+    console.log(req.body)
     try {
         // Validate required fields
         if (!name || !description || !rewards || !duration || !taskamount) {

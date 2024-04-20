@@ -48,7 +48,8 @@ import {error,success} from "../services/responseWrapper.js"
           startTime: createdChallenge.startTime,
           status: createdChallenge.status,
           user: createdChallenge.user,
-          duration:createdChallenge.duration
+          duration:createdChallenge.duration,
+          taskamount:createdChallenge.taskamount
       };
 
     
@@ -158,6 +159,7 @@ export async function getAllChallengesController(req,res){
             remainingTime: challenge.remainingTime,
             status: challenge.status,
             duration: challenge.duration,
+            taskamount:challenge.taskamount
             
         };
     });
