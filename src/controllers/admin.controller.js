@@ -12,6 +12,7 @@ import adBasedFreeLifesModel from "../models/admin.adbasedfreelifes.model.js";
 import shopModel from "../models/admin.shop.model.js";
 import kycModel from "../models/user.kyc.model.js";
 import WithdrawRequestModel from "../models/user.withdrawrequest.model.js";
+import {generateUniqueReferenceId } from  '../services/generateRefrenceId.js'
 dotenv.config();
 
 
@@ -76,16 +77,16 @@ export async function getAllUsers(req,res){
 
 export async function createChallengeController(req, res) {
     const { name, description, isActive, rewards,duration,taskamount } = req.body;
-    console.log("pavan")
-    console.log(req.body)
     try {
         // Validate required fields
         if (!name || !description || !rewards || !duration || !taskamount) {
              return res.send(error(404,"insufficient data"))
         }
+        const referenceId = generateUniqueReferenceId()
 
         // Create a new challenge instance
         const newChallenge = new createChallengeModel({
+            referenceId,
             name,
             description,
             isActive: isActive || true, // Default isActive to true if not provided

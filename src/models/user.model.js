@@ -44,10 +44,13 @@ const commonSchema = new mongoose.Schema({
         }
     ],
     challenges:[
-        {
+        { challengeId:{
             type: mongoose.Schema.Types.ObjectId,
             ref:'challenge',
+        },
+        referenceId:String
 
+        
         }
     ],
    shops:[
