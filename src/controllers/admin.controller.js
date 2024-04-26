@@ -76,10 +76,10 @@ export async function getAllUsers(req,res){
 }
 
 export async function createChallengeController(req, res) {
-    const { name, description, isActive, rewards,duration,taskamount } = req.body;
+    const { name, description, isActive, rewards,duration,taskamount,challengetype } = req.body;
     try {
         // Validate required fields
-        if (!name || !description || !rewards || !duration || !taskamount) {
+        if (!name || !description || !rewards || !duration || !taskamount ||!challengetype) {
              return res.send(error(404,"insufficient data"))
         }
         const referenceId = generateUniqueReferenceId()
@@ -92,7 +92,8 @@ export async function createChallengeController(req, res) {
             isActive: isActive || true, // Default isActive to true if not provided
             rewards,
             duration,
-            taskamount
+            taskamount,
+            challengetype
         });
 
         // Save the new challenge to the database
@@ -122,7 +123,7 @@ export async function getChallengeController(req,res){
 
 export async function updateChallengeController(req, res) {
      const { id } = req.params; 
-    const { name, description, isActive, rewards, duration,taskamount} = req.body;
+    const { name, description, isActive, rewards, duration,taskamount,challengetype} = req.body;
 
     try {
        
@@ -153,6 +154,9 @@ export async function updateChallengeController(req, res) {
      
         if (taskamount) {
             existingChallenge.taskamount = taskamount;
+        }
+        if (challengetype) {
+            existingChallenge.challengetype = challengetype;
         }
         // Save the updated challenge to the database
         const updatedChallenge = await existingChallenge.save();

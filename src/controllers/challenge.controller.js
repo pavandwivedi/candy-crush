@@ -40,8 +40,9 @@ import CompletedChallenge from "../models/completedChallenge.js";
         const challengeInfo = new challengeModel({ 
           user,
           startTime,
-        endTime,
-          name,
+          endTime,
+          name, 
+          challengetype: challengeDetails.challengetype,                                  
           duration:challengeDetails.duration,
           taskamount:challengeDetails.taskamount,
           status: "incomplete",
@@ -60,6 +61,7 @@ import CompletedChallenge from "../models/completedChallenge.js";
           startTime: createchallenges.startTime,
           status: createchallenges.status,
           user: createchallenges.user,
+          challengetype: createchallenges.challengetype,
           duration:createchallenges.duration,
           taskamount:createchallenges.taskamount,
           referenceId:challengeDetails.referenceId
@@ -180,6 +182,7 @@ export async function getAllChallengesController(req,res){
             startTime: challenges.startTime,
             remainingTime: challenges.remainingTime,
             status: challenges.status,
+            challengetype: challenges.challengetype,
             duration: challenges.duration,
             taskamount:challenges.taskamount,
             referenceId:challenges.referenceId

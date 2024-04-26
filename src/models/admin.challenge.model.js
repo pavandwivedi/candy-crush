@@ -19,6 +19,10 @@ const createChallengeSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
+  challengetype:{
+    type:String,
+    required:true
+},
   rewards: {
     type: Number, // Assuming rewards are represented as strings, adjust as needed
     required: true

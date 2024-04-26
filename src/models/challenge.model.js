@@ -34,6 +34,9 @@ const challengeSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
+    challengetype:{
+      type: String
+    },
     taskamount:{
       type:Number
     

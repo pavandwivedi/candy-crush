@@ -48,7 +48,9 @@ const commonSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref:'challenge',
         },
-        referenceId:String
+        referenceId:String,
+        challengetype:String,
+        
 
         
         }
