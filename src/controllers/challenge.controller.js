@@ -173,15 +173,16 @@ export async function getAllChallengesController(req,res){
         return res.send(error(404,"no challenge have been played by you"));
       }
 
-      const challengesResponse = allChallenges.map(challenge => {
+      const challengesResponse = allChallenges.map(challenges => {
         return {
-            _id: challenge._id,
-            name: challenge.name,
-            startTime: challenge.startTime,
-            remainingTime: challenge.remainingTime,
-            status: challenge.status,
-            duration: challenge.duration,
-            taskamount:challenge.taskamount
+            _id: challenges._id,
+            name: challenges.name,
+            startTime: challenges.startTime,
+            remainingTime: challenges.remainingTime,
+            status: challenges.status,
+            duration: challenges.duration,
+            taskamount:challenges.taskamount,
+            referenceId:challenges.referenceId
             
         };
     });
