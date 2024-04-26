@@ -122,7 +122,7 @@ export async function getChallengeController(req,res){
 }
 
 export async function updateChallengeController(req, res) {
-     const { id } = req.params; 
+     const {id} = req.params; 
     const { name, description, isActive, rewards, duration,taskamount,challengetype} = req.body;
 
     try {
