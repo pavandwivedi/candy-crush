@@ -182,6 +182,7 @@ export async function getAllChallengesController(req,res){
             startTime: challenges.startTime,
             remainingTime: challenges.remainingTime,
             status: challenges.status,
+            rewards: challenges.rewards,
             challengetype: challenges.challengetype,
             duration: challenges.duration,
             taskamount:challenges.taskamount,

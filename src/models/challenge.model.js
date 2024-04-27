@@ -44,6 +44,10 @@ const challengeSchema = mongoose.Schema({
     duration:{
       type:Number
       
+    },
+    rewards:{
+      type:Number,
+      
     }
     
 })
