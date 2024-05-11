@@ -656,7 +656,7 @@ const endpoint = 'contacts'
          const fund_account_id  = response.data.id;
           const fundDetail = new fundModel({fund_account_id,user});
           await fundDetail.save();
-          
+          console.log(fundDetail);
           res.status(201).json({ message: 'Contact created successfully', data: response.data });
         } catch (error) {
           // Handle errors
