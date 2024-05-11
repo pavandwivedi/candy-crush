@@ -1,15 +1,17 @@
-export function success(statusCode,result){
+export function success(statusCode,result,res){
     return{
         status:"ok",
         statusCode,
-        result
+        result,
+        res
     }
 }
 
-export function error(statusCode,message){
+export function error(statusCode,message,res){
     return{
-        status:"error",
+        status :"error",
         statusCode,
-        message
+        message,
+        res
     }
 }

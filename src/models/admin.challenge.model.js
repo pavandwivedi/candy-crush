@@ -2,6 +2,11 @@
 import mongoose from "mongoose";
 
 const createChallengeSchema = new mongoose.Schema({
+  referenceId: {
+    type: String,
+    unique: true, 
+    required: true
+  },
   name: {
     type: String,
     required: true
@@ -14,6 +19,10 @@ const createChallengeSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
+  challengetype:{
+    type:String,
+    required:true
+},
   rewards: {
     type: Number, // Assuming rewards are represented as strings, adjust as needed
     required: true
@@ -21,6 +30,10 @@ const createChallengeSchema = new mongoose.Schema({
   duration: {
     type: Number, // Assuming duration is in seconds, adjust as needed
     required: true
+  },
+  taskamount:{
+    type:Number,
+    required:true
   }
 }, { timestamps: true });
 

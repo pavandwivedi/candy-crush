@@ -5,12 +5,15 @@ dotenv.config();
 
 
 
-export  default async function connectDB(){
+export  default async function connectDB(req,res){
     try {
         const connect = await mongoose.connect(process.env.mongoURL);
-        console.log('db connected'+connect.connection.host);
-    } catch (err) {
-        return res.send(error(500,err.message));
+        console.log('db connected'+ connect.connection.host);
+     
+    } catch (error) {
+       console.error("Error connecting")
+         res.status(500).json({message:"Error connecting"})
+        
     }
     
 }

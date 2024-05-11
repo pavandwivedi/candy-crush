@@ -98,9 +98,14 @@ export async function authenticLoginController(req, res) {
             if (guestUser) {
                 newUser.life = guestUser.life; // Assuming name is a field you want to transfer
                 newUser.coins = guestUser.coins;
-                newUser.extraball = guestUser.extraball;
-                newUser.fireball = guestUser.fireball;
-                newUser.colorball = guestUser.colorball;
+                newUser.ExtraMoves = guestUser.ExtraMoves;
+                newUser.Packages = guestUser.Packages;
+                newUser.Stripes = guestUser.Stripes;
+                newUser.ExtraTime = guestUser.ExtraTime;
+                newUser.Bomb = guestUser.Bomb;
+                newUser.Colorful_bomb = guestUser.Colorful_bomb;
+                newUser.Hand = guestUser.Hand;
+                newUser.Random_color = guestUser.Random_color;
                 newUser.levels = guestUser.levels;
                  
             }
@@ -156,9 +161,14 @@ export async function facebookLoginController(req, res) {
             if (guestUser) {
                 newUser.life = guestUser.life; // Assuming name is a field you want to transfer
                 newUser.coins = guestUser.coins;
-                newUser.extraball = guestUser.extraball;
-                newUser.fireball = guestUser.fireball;
-                newUser.colorball = guestUser.colorball;
+                newUser.ExtraMoves = guestUser.ExtraMoves;
+                newUser.Packages = guestUser.Packages;
+                newUser.Stripes = guestUser.Stripes;
+                newUser.ExtraTime = guestUser.ExtraTime;
+                newUser.Bomb = guestUser.Bomb;
+                newUser.Colorful_bomb = guestUser.Colorful_bomb;
+                newUser.Hand = guestUser.Hand;
+                newUser.Random_color = guestUser.Random_color;
                 newUser.levels = guestUser.levels;
                  
             }
@@ -203,7 +213,7 @@ export async function getUserController(req,res){
 export async function userUpdateController(req, res) {
     try {
         const userId = req._id;
-        const { coins, life, extraball, fireball, colorball } = req.body;
+        const { coins, life, ExtraMoves, Packages, Stripes,ExtraTime,Bomb, Colorful_bomb,Hand,Random_color} = req.body;
 
         const user = await userModel.findById(userId);
 
@@ -213,10 +223,14 @@ export async function userUpdateController(req, res) {
         // Update user's fields
         user.coins += coins || 0;
         user.life += life || 0;
-        user.extraball += extraball || 0;
-        user.fireball += fireball || 0;
-        user.colorball += colorball || 0;
-
+        user.ExtraMoves += ExtraMoves || 0;
+        user.Packages += Packages || 0;
+        user.Stripes += Stripes || 0;
+        user.ExtraTime += ExtraTime || 0;
+        user.Bomb += Bomb || 0;
+        user.Colorful_bomb += Colorful_bomb || 0;
+        user.Hand += Hand || 0;
+        user.Random_color += Random_color || 0;
         // Save the user
         await user.save();
 

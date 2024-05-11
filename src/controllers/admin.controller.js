@@ -12,6 +12,7 @@ import adBasedFreeLifesModel from "../models/admin.adbasedfreelifes.model.js";
 import shopModel from "../models/admin.shop.model.js";
 import kycModel from "../models/user.kyc.model.js";
 import WithdrawRequestModel from "../models/user.withdrawrequest.model.js";
+import {generateUniqueReferenceId } from  '../services/generateRefrenceId.js'
 dotenv.config();
 
 
@@ -75,22 +76,24 @@ export async function getAllUsers(req,res){
 }
 
 export async function createChallengeController(req, res) {
-    const { name, description, isActive, rewards,duration } = req.body;
-    console.log("pavan")
-    
+    const { name, description, isActive, rewards,duration,taskamount,challengetype } = req.body;
     try {
         // Validate required fields
-        if (!name || !description || !rewards || !duration) {
+        if (!name || !description || !rewards || !duration || !taskamount ||!challengetype) {
              return res.send(error(404,"insufficient data"))
         }
+        const referenceId = generateUniqueReferenceId()
 
         // Create a new challenge instance
         const newChallenge = new createChallengeModel({
+            referenceId,
             name,
             description,
             isActive: isActive || true, // Default isActive to true if not provided
             rewards,
-            duration
+            duration,
+            taskamount,
+            challengetype
         });
 
         // Save the new challenge to the database
@@ -119,8 +122,8 @@ export async function getChallengeController(req,res){
 }
 
 export async function updateChallengeController(req, res) {
-     const { id } = req.params; 
-    const { name, description, isActive, rewards, duration } = req.body;
+     const {id} = req.params; 
+    const { name, description, isActive, rewards, duration,taskamount,challengetype} = req.body;
 
     try {
        
@@ -148,7 +151,13 @@ export async function updateChallengeController(req, res) {
         if (duration) {
             existingChallenge.duration = duration;
         }
-
+     
+        if (taskamount) {
+            existingChallenge.taskamount = taskamount;
+        }
+        if (challengetype) {
+            existingChallenge.challengetype = challengetype;
+        }
         // Save the updated challenge to the database
         const updatedChallenge = await existingChallenge.save();
 

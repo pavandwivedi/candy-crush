@@ -1,7 +1,10 @@
 import mongoose from "mongoose"
 
 const challengeSchema = mongoose.Schema({
-    
+  referenceId: {
+    type: String,
+    unique: true
+  },
       name: {
         type: String,
         required: true
@@ -16,6 +19,7 @@ const challengeSchema = mongoose.Schema({
       },
      remainingTime:{
       type:Date,
+      default:0
      },
      remainingLevel:{
       type:Number
@@ -23,11 +27,27 @@ const challengeSchema = mongoose.Schema({
      status: {
       type: String,
       enum: ['complete', 'incomplete'],
-      default: 'incomplete'
+      default:"incomplete"
+      
   },
       user : {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
+    },
+    challengetype:{
+      type: String
+    },
+    taskamount:{
+      type:Number
+    
+    },
+    duration:{
+      type:Number
+      
+    },
+    rewards:{
+      type:Number,
+      
     }
     
 })
