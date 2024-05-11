@@ -720,7 +720,7 @@ const endpoint = 'contacts'
            const response = await axios.post(endpoint, data, axiosConfig);
          const payout_id = response.data.id;
          const payoutDetail = new payoutModel({payout_id,amount,mode,user});
-         console.log(payoutDetail)
+         
          await payoutDetail.save();
           
           res.status(201).json({ message: 'Contact created successfully', data: response.data });
